@@ -1,0 +1,15 @@
+{
+	"name": "svelte-app",
+	"image": "node:latest",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"svelte.svelte-vscode",
+				"ms-vscode.vscode-typescript-next",
+				"dbaeumer.vscode-eslint",
+				"rvest.vs-code-prettier-eslint",
+				"streetsidesoftware.code-spell-checker"
+			]
+		}
+	}
+}
