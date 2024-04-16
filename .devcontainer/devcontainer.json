@@ -15,7 +15,7 @@
 				"github.copilot",
 				"ms-azuretools.vscode-docker",
 				"eamodio.gitlens",
-				"ms-vscode-remote.remote-containers",
+				"ms-vscode-remote.remote-containers"
 			]
 		}
 	}

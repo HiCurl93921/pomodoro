@@ -19,4 +19,4 @@ GIT_PS1_SHOWUNTRACKEDFILES=true\n\
 GIT_PS1_SHOWSTASHSTATE=true\n\
 GIT_PS1_SHOWUPSTREAM=auto\n\
 \n\
-PS1='[\[\033[32m\]\u@\h\[\033[00m\] \[\033[33m\]\w\[\033[1;36m\]$(__git_ps1 " (%s)")\[\033[00m\]]\n\$ '" >> ~/.bashrc
+PS1='[\[[32m\]\u@\h\[[00m\] \[[33m\]\w\[[00m\]] \[[1;36m\]\$(__git_ps1 \" (%s)\")\[[00m\]\n$ '" >> ~/.bashrc
