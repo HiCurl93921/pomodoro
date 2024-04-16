@@ -1,6 +1,8 @@
 {
 	"name": "svelte-app",
-	"image": "node:latest",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -8,7 +10,12 @@
 				"ms-vscode.vscode-typescript-next",
 				"dbaeumer.vscode-eslint",
 				"rvest.vs-code-prettier-eslint",
-				"streetsidesoftware.code-spell-checker"
+				"streetsidesoftware.code-spell-checker",
+				"mhutchie.git-graph",
+				"github.copilot",
+				"ms-azuretools.vscode-docker",
+				"eamodio.gitlens",
+				"ms-vscode-remote.remote-containers",
 			]
 		}
 	}
