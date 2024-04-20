@@ -11,5 +11,10 @@ module.exports = {
 		browser: true,
 		es2017: true,
 		node: true
-	}
+	},
+	semi: [
+	  'error',
+  	'never'
+  ],
+  'no-unexpected-multiline': 'error',
 };
