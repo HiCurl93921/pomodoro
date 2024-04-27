@@ -6,8 +6,8 @@ export class Timer {
     this.thick = thick;
   }
 
-  start(time: number, onThick: (current: number) => void, onEnd: () => void = () => {}) {
-    this.interval = setInterval(() => {
+  async start(time: number, onThick: (current: number) => void, onEnd: () => void = () => {}) {
+    this.interval = await setInterval(() => {
       time -= this.thick;
       onThick(time);
 
@@ -19,9 +19,9 @@ export class Timer {
     }, this.thick);
   }
 
-  stop() {
+  async stop() {
     if (this.interval) {
-      clearInterval(this.interval);
+      await clearInterval(this.interval);
     }
   }
 }
