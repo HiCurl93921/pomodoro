@@ -1,61 +1,66 @@
 <script lang="ts">
-	export let diameter: {
-		root: number
-		inner?: number
-	}
-	export let teeth: {
-		num: number
-		width: number
-		height: number
-	}
+	export let outerDiameter: number
+	export let innerRate: number = 0
+	export let teethNumber: number
+	export let teethWidth: number
+	export let teethDepth: number
 	export let rotate: number = 0
 	export let color: string = 'white'
 
 	$: teethAngles = Array.apply(
 		null,
-		new Array(teeth.num),
-	).map((_, i) => i * (360 / teeth.num) + rotate)
+		new Array(teethNumber),
+	).map((_, i) => i * (360 / teethNumber) + rotate)
 
-	$: radius = {
-		outer: diameter.root / 2,
-		inner: diameter.inner ?? 0 / 2,
-	}
-	$: borderThickness = radius.outer - radius.inner
+	$: rootRadius = (outerDiameter - teethDepth * 2) / 2
+	$: innerRadius =
+		innerRate > 0.9
+			? (rootRadius / 2) * 0.9
+			: innerRate < 0
+				? 0
+				: rootRadius * innerRate
 
-	$: radiusSquare = radius.outer * radius.outer
-	$: baseSquare = (teeth.width / 2) * (teeth.width / 2)
+	$: borderThickness = rootRadius - innerRadius
 
-	$: teethRadius =
-		Math.sqrt(radiusSquare - baseSquare) +
-		teeth.height / 2.2
+	$: radiusSquare = rootRadius * rootRadius
+	$: teethBottomSquare = (teethWidth / 2) * (teethWidth / 2)
+
+	$: teethBottomRadius = Math.sqrt(
+		radiusSquare - teethBottomSquare,
+	)
+
+	$: teethFullDepth =
+		teethDepth + (rootRadius - teethBottomRadius)
+
+	$: teethRadius = teethBottomRadius + teethFullDepth / 2.2
 </script>
 
 <div
 	class="gear"
-	style:width={`${diameter.root + teeth.height * 2}px`}
-	style:height={`${diameter.root + teeth.height * 2}px`}
+	style:width={`${outerDiameter}px`}
+	style:height={`${outerDiameter}px`}
 >
 	<div
 		class="circle"
-		style:width={`${diameter.root}px`}
-		style:height={`${diameter.root}px`}
+		style:width={`${rootRadius}px`}
+		style:height={`${rootRadius}px`}
 		style:border={`${borderThickness}px solid ${color}`}
-		style:padding={`${radius.inner}px`}
+		style:padding={`${innerRadius}px`}
 	>
 		{#each teethAngles as angle (angle)}
 			{@const theta = Math.PI * (angle / 180)}
 			{@const top =
 				-teethRadius * Math.cos(theta) +
-				radius.outer -
-				(borderThickness + teeth.height / 2)}
+				rootRadius -
+				(borderThickness + teethFullDepth / 2)}
 			{@const left =
 				-teethRadius * Math.sin(theta) +
-				radius.outer -
-				(borderThickness + teeth.width / 2)}
+				rootRadius -
+				(borderThickness + teethWidth / 2)}
 			<div
 				class="tooth"
-				style:width={`${teeth.width}px`}
-				style:height={`${teeth.height}px`}
+				style:width={`${teethWidth}px`}
+				style:height={`${teethFullDepth}px`}
 				style:top={`${top}px`}
 				style:left={`${left}px`}
 				style:transform={`rotate(${-angle}deg)`}
@@ -68,6 +73,7 @@
 <style lang="scss">
 	.gear {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 	}
@@ -76,12 +82,12 @@
 		border-radius: 50%;
 		background-color: transparent;
 		position: relative;
-		z-index: 2;
+		z-index: 1;
 	}
 
 	.tooth {
 		position: absolute;
-		z-index: 3;
+		z-index: 2;
 
 		clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
 	}
