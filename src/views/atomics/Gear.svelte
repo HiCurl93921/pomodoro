@@ -32,33 +32,46 @@
 
 <div
 	class="gear"
-	style:border={`${borderThickness}px solid ${color}`}
-	style:padding={`${radius.inner}px`}
+	style:width={`${diameter.root + teeth.height * 2}px`}
+	style:height={`${diameter.root + teeth.height * 2}px`}
 >
-	{#each teethAngles as angle (angle)}
-		{@const theta = Math.PI * (angle / 180)}
-		{@const top =
-			-teethRadius * Math.cos(theta) +
-			radius.outer -
-			(borderThickness + teeth.height / 2)}
-		{@const left =
-			-teethRadius * Math.sin(theta) +
-			radius.outer -
-			(borderThickness + teeth.width / 2)}
-		<div
-			class="tooth"
-			style:width={`${teeth.width}px`}
-			style:height={`${teeth.height}px`}
-			style:top={`${top}px`}
-			style:left={`${left}px`}
-			style:transform={`rotate(${-angle}deg)`}
-			style:background-color={color}
-		/>
-	{/each}
+	<div
+		class="circle"
+		style:width={`${diameter.root}px`}
+		style:height={`${diameter.root}px`}
+		style:border={`${borderThickness}px solid ${color}`}
+		style:padding={`${radius.inner}px`}
+	>
+		{#each teethAngles as angle (angle)}
+			{@const theta = Math.PI * (angle / 180)}
+			{@const top =
+				-teethRadius * Math.cos(theta) +
+				radius.outer -
+				(borderThickness + teeth.height / 2)}
+			{@const left =
+				-teethRadius * Math.sin(theta) +
+				radius.outer -
+				(borderThickness + teeth.width / 2)}
+			<div
+				class="tooth"
+				style:width={`${teeth.width}px`}
+				style:height={`${teeth.height}px`}
+				style:top={`${top}px`}
+				style:left={`${left}px`}
+				style:transform={`rotate(${-angle}deg)`}
+				style:background-color={color}
+			/>
+		{/each}
+	</div>
 </div>
 
 <style lang="scss">
 	.gear {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.circle {
 		box-sizing: border-box;
 		border-radius: 50%;
 		background-color: transparent;
