@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+	import { createEventDispatcher } from 'svelte'
+</script>
+
 <script lang="ts">
 	export let outerDiameter: number
 	export let innerRate: number = 0
@@ -33,12 +37,19 @@
 		teethDepth + (rootRadius - teethBottomRadius)
 
 	$: teethRadius = teethBottomRadius + teethFullDepth / 2.2
+
+	const dispatch = createEventDispatcher()
+
+	const onWheel = (event: WheelEvent) => {
+		dispatch('wheel', event)
+	}
 </script>
 
 <div
 	class="gear"
 	style:width={`${outerDiameter}px`}
 	style:height={`${outerDiameter}px`}
+	on:wheel={onWheel}
 >
 	<div
 		class="circle"

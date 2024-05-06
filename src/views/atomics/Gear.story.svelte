@@ -2,73 +2,74 @@
 	import Gear from './Gear.svelte'
 	export let Hst
 
-	let outer: number = 200
+	let outerDiameter: number = 200
 	let innerRate: number = 20
-
 	let teethNumber: number = 12
 	let teethWidth: number = 30
 	let teethDepth: number = 20
+	let rotate: number = 0
+	let color: string = '#ffffff'
+
+	$: if (rotate >= 360) {
+		rotate = 0
+	} else if (rotate < 0) {
+		rotate = 360
+	}
+
+	const onwheel = (e: CustomEvent<WheelEvent>) => {
+		if (e.detail.deltaY > 0) {
+			rotate += 10
+		} else {
+			rotate -= 10
+		}
+	}
+
+	const onMove = (e: CustomEvent<TouchEvent>) => {
+		console.log(e)
+	}
 </script>
 
 <Hst.Story>
-	<div
-		class="box"
-		style="width: {outer}px; height: {outer}px;"
-	>
-		<Gear
-			outerDiameter={outer}
-			innerRate={innerRate / 100}
-			{teethNumber}
-			{teethWidth}
-			{teethDepth}
-			color="#101010"
-		/>
-	</div>
+	<Gear
+		{outerDiameter}
+		innerRate={innerRate / 100}
+		{teethNumber}
+		{teethWidth}
+		{teethDepth}
+		{rotate}
+		{color}
+		on:wheel={onwheel}
+		on:touchmove={onMove}
+	/>
 	<svelte:fragment slot="controls">
-		<label for="root-diameter">Root Diameter: </label>
-		<input
-			type="number"
-			name="root-diameter"
-			bind:value={outer}
-			min="0"
+		<Hst.Number
+			bind:value={outerDiameter}
+			title="Outer Diameter"
 		/>
-		<label for="inner-rate">Inner Rate: </label>
-		<input
-			type="range"
-			name="inner-rate"
+		<Hst.Slider
 			bind:value={innerRate}
 			min="0"
 			max="90"
+			title="Inner Rate"
 		/>
-		<label for="teeth-number">Teeth Number: </label>
-		<input
-			type="number"
-			name="teeth-number"
+		<Hst.Number
 			bind:value={teethNumber}
-			min="0"
+			title="Teeth Number"
 		/>
-		<label for="teeth-width">Teeth Width: </label>
-		<input
-			type="number"
-			name="teeth-width"
+		<Hst.Number
 			bind:value={teethWidth}
-			min="0"
+			title="Teeth Width"
 		/>
-		<label for="teeth-depth">Teeth Depth: </label>
-		<input
-			type="number"
-			name="teeth-depth"
+		<Hst.Number
 			bind:value={teethDepth}
-			min="0"
+			title="Teeth Depth"
 		/>
+		<Hst.Slider
+			bind:value={rotate}
+			min="0"
+			max="360"
+			title="Rotate"
+		/>
+		<Hst.ColorSelect bind:value={color} title="Color" />
 	</svelte:fragment>
 </Hst.Story>
-
-<style lang="scss">
-	.box {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: 1px solid #101010;
-	}
-</style>
